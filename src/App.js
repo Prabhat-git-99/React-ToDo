@@ -31,16 +31,28 @@ export default class App extends Component {
     });
   };
   clearList = () => {
-    console.log("Clear list");
+    this.setState({
+      items: []
+    });
   };
   editItem = () => {
     console.log("handle edit");
   };
   handleEdit = id => {
-    console.log(`handle edit ${id}`);
+    const filteredItems = this.state.items.filter(item => item.id !== id);
+    const selectedItem = this.state.items.find(item => item.id === id);
+    this.setState({
+      items: filteredItems,
+      item: selectedItem.title,
+      id: id,
+      editItem: true
+    });
   };
   handleDelete = id => {
-    console.log(`handle edit ${id}`);
+    const filteredItems = this.state.items.filter(item => item.id !== id);
+    this.setState({
+      items: filteredItems
+    });
   };
   render() {
     console.log(this.state);
@@ -53,13 +65,13 @@ export default class App extends Component {
               item={this.state.item}
               handleChange={this.handleChange}
               handleSubmit={this.handleSubmit}
-              editItem={this.editItem}
+              editItem={this.state.editItem}
             />
             <TodoList
               items={this.state.items}
-              clearList={this.state.clearList}
-              handleDelete={this.state.handleDelete}
-              handleEdit={this.state.handleEdit}
+              clearList={this.clearList}
+              handleDelete={this.handleDelete}
+              handleEdit={this.handleEdit}
             />
           </div>
         </div>
